@@ -146,11 +146,23 @@ export default function ChartComponent({ id, dataUrl, type, title, description }
   return (
     <figure className="my-8 w-full">
       <div className="w-full" style={{ height: '400px' }}>
-        {type === 'line' ? (
-          <Line data={chartData} options={options} />
-        ) : (
-          <Bar data={chartData} options={options} />
-        )}
+        {type === 'line'
+          ? (
+            chartData && (
+              <Line
+                data={chartData as ChartData<'line', number[], string>}
+                options={options as ChartOptions<'line'>}
+              />
+            )
+          )
+          : (
+            chartData && (
+              <Bar
+                data={chartData as ChartData<'bar', number[], string>}
+                options={options as ChartOptions<'bar'>}
+              />
+            )
+          )}
       </div>
       {description && (
         <figcaption className="mt-4 text-sm text-dim-gray text-center italic">

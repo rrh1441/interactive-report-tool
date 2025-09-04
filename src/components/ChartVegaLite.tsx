@@ -27,13 +27,20 @@ export default function ChartVegaLiteComp({ chart }: Props) {
 
     // Merge data so we preserve any format/parse in the spec
     const baseSpec = chart.spec as unknown as VisualizationSpec;
-    const existingData = (typeof baseSpec.data === "object" && baseSpec.data)
-      ? (baseSpec.data as Record<string, unknown>)
-      : {};
-    const spec: VisualizationSpec = {
-      ...baseSpec,
-      data: { ...existingData, url: chart.data.src },
-    };
+    let dataProp: VisualizationSpec["data"];
+    if (Array.isArray(baseSpec.data)) {
+      // If multiple named datasets are provided, do not override
+      dataProp = baseSpec.data;
+    } else if (typeof baseSpec.data === "object" && baseSpec.data) {
+      dataProp = { ...((baseSpec.data as unknown) as Record<string, unknown>), url: chart.data.src } as any;
+    } else {
+      dataProp = { url: chart.data.src } as any;
+    }
+
+    const spec: VisualizationSpec = ({
+      ...(baseSpec as any),
+      data: dataProp,
+    } as unknown) as VisualizationSpec;
 
     let cancelled = false;
     embed(containerEl, spec, { actions: false })
