@@ -63,35 +63,20 @@
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": "container",
             "height": 300,
-            "data": {"url": "/content/reports/dwiq-monthly-august-2025/datasets/monthly-trends.csv"},
-            "transform": [
-              {"fold": ["interceptions", "notifications"], "as": ["metric", "value"]},
-              {"calculate": "datetime(datum.month)", "as": "date"}
-            ],
+            "transform": [{"fold": ["interceptions", "notifications"], "as": ["metric", "value"]}],
             "mark": {"type": "line", "point": true, "strokeWidth": 3},
             "encoding": {
-              "x": {
-                "field": "date", 
-                "type": "temporal", 
-                "title": "Month",
-                "axis": {"format": "%b %Y", "titleFontSize": 14, "labelAngle": 0}
-              },
-              "y": {
-                "field": "value", 
-                "type": "quantitative", 
-                "title": "Count",
-                "axis": {"titleFontSize": 14}
-              },
+              "x": {"field": "month", "type": "temporal", "title": "Month"},
+              "y": {"field": "value", "type": "quantitative", "title": "Count"},
               "color": {
-                "field": "metric",
+                "field": "metric", 
                 "type": "nominal",
-                "title": "Metric",
                 "scale": {"range": ["#EE4727", "#61625D"]},
-                "legend": {"titleFontSize": 12, "labelFontSize": 11, "orient": "top"}
+                "legend": {"orient": "top"}
               },
               "tooltip": [
-                {"field": "date", "type": "temporal", "format": "%B %Y"},
-                {"field": "metric", "type": "nominal", "title": "Type"},
+                {"field": "month", "type": "temporal", "title": "Month"},
+                {"field": "metric", "type": "nominal", "title": "Type"}, 
                 {"field": "value", "type": "quantitative", "title": "Count"}
               ]
             }
@@ -106,42 +91,19 @@
           },
           "spec": {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "width": "container",
+            "width": "container", 
             "height": 300,
-            "transform": [
-              {"fold": ["previous_total", "current_month"], "as": ["period", "value"]}
-            ],
-            "mark": {"type": "bar", "cornerRadius": 4},
+            "transform": [{"fold": ["previous_total", "current_month"], "as": ["period", "value"]}],
+            "mark": "bar",
             "encoding": {
-              "x": {
-                "field": "metric",
-                "type": "nominal",
-                "title": "Metric Type",
-                "axis": {"titleFontSize": 14, "labelAngle": 0}
-              },
-              "y": {
-                "field": "value",
-                "type": "quantitative",
-                "title": "Cumulative Count",
-                "axis": {"titleFontSize": 14},
-                "stack": true
-              },
+              "x": {"field": "metric", "type": "nominal", "title": "Metric Type"},
+              "y": {"field": "value", "type": "quantitative", "stack": true, "title": "Count"},
               "color": {
-                "field": "period",
+                "field": "period", 
                 "type": "nominal",
-                "title": "Period",
-                "scale": {
-                  "domain": ["previous_total", "current_month"],
-                  "range": ["#50534D", "#EE4727"]
-                },
-                "legend": {
-                  "titleFontSize": 12,
-                  "labelFontSize": 11,
-                  "orient": "top",
-                  "labelExpr": "datum.value === 'current_month' ? 'August 2025' : 'Previous Total'"
-                }
+                "scale": {"range": ["#50534D", "#EE4727"]},
+                "legend": {"orient": "top"}
               },
-              "order": {"field": "period", "type": "nominal", "sort": ["previous_total", "current_month"]},
               "tooltip": [
                 {"field": "metric", "type": "nominal", "title": "Metric"},
                 {"field": "period", "type": "nominal", "title": "Period"},
