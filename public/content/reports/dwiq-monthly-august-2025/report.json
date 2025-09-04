@@ -76,11 +76,11 @@
                 "field": "month",
                 "type": "temporal",
                 "timeUnit": "utcyearmonth",
-                "title": "Month",
+                "title": null,
                 "axis": { "format": "%b %Y", "labelAngle": 0 },
                 "scale": { "type": "utc" }
               },
-              "y": { "field": "value", "type": "quantitative", "title": "Count" },
+              "y": { "field": "value", "type": "quantitative", "title": null },
               "color": {
                 "field": "metric",
                 "type": "nominal",
@@ -89,7 +89,9 @@
                   "orient": "top",
                   "title": null,
                   "values": ["interceptions", "notifications"],
-                  "labelExpr": "datum.label == 'interceptions' ? 'Interceptions' : 'FBI Notifications'"
+                  "labelExpr": "datum.label == 'interceptions' ? 'Interceptions' : 'FBI Notifications'",
+                  "labelFontSize": 14,
+                  "symbolSize": 200
                 }
               },
               "tooltip": [
@@ -114,13 +116,13 @@
             "transform": [{"fold": ["previous_total", "current_month"], "as": ["period", "value"]}],
             "mark": "bar",
             "encoding": {
-              "x": {"field": "metric", "type": "nominal", "title": "Metric Type"},
-              "y": {"field": "value", "type": "quantitative", "stack": true, "title": "Count"},
+              "x": {"field": "metric", "type": "nominal", "title": null},
+              "y": {"field": "value", "type": "quantitative", "stack": true, "title": null},
               "color": {
                 "field": "period", 
                 "type": "nominal",
                 "scale": {"range": ["#50534D", "#EE4727"]},
-                "legend": {"orient": "top"}
+                "legend": {"orient": "top", "labelFontSize": 14, "symbolSize": 200}
               },
               "tooltip": [
                 {"field": "metric", "type": "nominal", "title": "Metric"},
