@@ -32,13 +32,14 @@ export default function ChartVegaLiteComp({ chart }: Props) {
       // If multiple named datasets are provided, do not override
       dataProp = baseSpec.data;
     } else if (typeof baseSpec.data === "object" && baseSpec.data) {
-      dataProp = { ...((baseSpec.data as unknown) as Record<string, unknown>), url: chart.data.src } as any;
+      const merged = { ...(baseSpec.data as object), url: chart.data.src } as unknown;
+      dataProp = merged as VisualizationSpec["data"];
     } else {
-      dataProp = { url: chart.data.src } as any;
+      dataProp = ({ url: chart.data.src } as unknown) as VisualizationSpec["data"];
     }
 
-    const spec: VisualizationSpec = ({
-      ...(baseSpec as any),
+    const spec = ({
+      ...baseSpec,
       data: dataProp,
     } as unknown) as VisualizationSpec;
 
