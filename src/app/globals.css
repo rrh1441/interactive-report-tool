@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #50534D;
+  
+  /* Custom Palette Colors */
+  --davy-gray: #50534D;
+  --dim-gray: #61625D;
+  --champagne-pink: #FBDDCE;
+  --cinnabar: #EE4727;
+  --silver: #A1A29E;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  
+  /* Custom color definitions for Tailwind */
+  --color-davy-gray: var(--davy-gray);
+  --color-dim-gray: var(--dim-gray);
+  --color-champagne-pink: var(--champagne-pink);
+  --color-cinnabar: var(--cinnabar);
+  --color-silver: var(--silver);
+  
+  /* Override default grays with custom palette */
+  --color-gray-50: #fef8f6;
+  --color-gray-100: #FBDDCE;
+  --color-gray-200: #f4a37b;
+  --color-gray-300: #A1A29E;
+  --color-gray-400: #81827b;
+  --color-gray-500: #61625D;
+  --color-gray-600: #50534D;
+  --color-gray-700: #3f423d;
+  --color-gray-800: #2f312e;
+  --color-gray-900: #20211e;
+  
+  /* Accent colors */
+  --color-red-500: var(--cinnabar);
+  --color-orange-500: var(--cinnabar);
+  --color-amber-500: #f4a37b;
+  --color-blue-500: #61625D;
+  --color-emerald-500: #72776e;
+}
+
+/* Force light mode - remove dark mode media query */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}

@@ -1,0 +1,414 @@
+{
+  "id": "dwiq-monthly-august-2025",
+  "title": "DWIQ Monthly Report: August 2025",
+  "subtitle": "Intelligence Summary & Threat Analysis",
+  "version": "1.0.0",
+  "publishedAt": "August 2025",
+  "authors": ["Darkweb IQ Research Team"],
+  "tags": ["cybersecurity", "threat intelligence", "darkweb", "ransomware"],
+  "sections": [
+    {
+      "id": "intelligence-summary",
+      "title": "Intelligence Summary",
+      "body": [
+        {
+          "type": "p",
+          "text": "Darkweb IQ (DWIQ) conducted **59 Attack Interceptions** in August and conducted an additional **66 FBI notifications** with actionable intelligence on other active compromises by credible threat actors."
+        },
+        {
+          "type": "p",
+          "text": "This month's report highlights a significant increase in Initial Access Broker (IAB) activity, with threat actors offering access to 860 corporate environments across U.S., Canadian, and European organizations. This represents a 41% increase compared to August 2024, indicating a substantial escalation in cybercriminal marketplace activity."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "text": "Key Focus Areas: Supply chain vulnerabilities, ransomware affiliate operations, forum disruptions, and emerging CVE exploitation"
+        },
+        {
+          "type": "p",
+          "text": "Our operational security team successfully disrupted multiple threat campaigns this month, including interventions against actors exploiting critical infrastructure and healthcare supply chain systems. The intelligence gathered provides valuable insights into current threat actor methodologies and target preferences."
+        }
+      ]
+    },
+    {
+      "id": "dashboard-statistics",
+      "title": "Dashboard Statistics",
+      "body": [
+        {
+          "type": "p",
+          "text": "DWIQ Comprehensive Interception Statistics (All Clients):"
+        },
+        {
+          "type": "p",
+          "text": "August demonstrated continued strong performance across all operational metrics. Our Attack Interception program prevented 59 successful breaches, while our intelligence sharing partnership with federal agencies resulted in 66 FBI notifications providing actionable threat intelligence."
+        },
+        {
+          "type": "callout",
+          "variant": "success",
+          "text": "2,580 total FBI notifications provided since program inception, supporting national cybersecurity efforts"
+        },
+        {
+          "type": "p",
+          "text": "The dashboard below reflects our comprehensive monitoring across 548 unique threat actors, providing real-time intelligence on emerging threats and attack methodologies. This data enables proactive defense strategies and early threat detection for our clients."
+        }
+      ],
+      "charts": [
+        {
+          "id": "monthly-trends-line",
+          "type": "vegaLite",
+          "data": {
+            "src": "/content/reports/dwiq-monthly-august-2025/datasets/monthly-trends.csv"
+          },
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": "container",
+            "height": 300,
+            "data": {"url": "/content/reports/dwiq-monthly-august-2025/datasets/monthly-trends.csv"},
+            "transform": [
+              {"fold": ["interceptions", "notifications"], "as": ["metric", "value"]},
+              {"calculate": "datetime(datum.month)", "as": "date"}
+            ],
+            "mark": {"type": "line", "point": true, "strokeWidth": 3},
+            "encoding": {
+              "x": {
+                "field": "date", 
+                "type": "temporal", 
+                "title": "Month",
+                "axis": {"format": "%b %Y", "titleFontSize": 14, "labelAngle": 0}
+              },
+              "y": {
+                "field": "value", 
+                "type": "quantitative", 
+                "title": "Count",
+                "axis": {"titleFontSize": 14}
+              },
+              "color": {
+                "field": "metric",
+                "type": "nominal",
+                "title": "Metric",
+                "scale": {"range": ["#EE4727", "#61625D"]},
+                "legend": {"titleFontSize": 12, "labelFontSize": 11, "orient": "top"}
+              },
+              "tooltip": [
+                {"field": "date", "type": "temporal", "format": "%B %Y"},
+                {"field": "metric", "type": "nominal", "title": "Type"},
+                {"field": "value", "type": "quantitative", "title": "Count"}
+              ]
+            }
+          },
+          "description": "Monthly trends showing interceptions and FBI notifications over time"
+        },
+        {
+          "id": "cumulative-stats-bar",
+          "type": "vegaLite",
+          "data": {
+            "src": "/content/reports/dwiq-monthly-august-2025/datasets/cumulative-stats.csv"
+          },
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": "container",
+            "height": 300,
+            "transform": [
+              {"fold": ["previous_total", "current_month"], "as": ["period", "value"]}
+            ],
+            "mark": {"type": "bar", "cornerRadius": 4},
+            "encoding": {
+              "x": {
+                "field": "metric",
+                "type": "nominal",
+                "title": "Metric Type",
+                "axis": {"titleFontSize": 14, "labelAngle": 0}
+              },
+              "y": {
+                "field": "value",
+                "type": "quantitative",
+                "title": "Cumulative Count",
+                "axis": {"titleFontSize": 14},
+                "stack": true
+              },
+              "color": {
+                "field": "period",
+                "type": "nominal",
+                "title": "Period",
+                "scale": {
+                  "domain": ["previous_total", "current_month"],
+                  "range": ["#50534D", "#EE4727"]
+                },
+                "legend": {
+                  "titleFontSize": 12,
+                  "labelFontSize": 11,
+                  "orient": "top",
+                  "labelExpr": "datum.value === 'current_month' ? 'August 2025' : 'Previous Total'"
+                }
+              },
+              "order": {"field": "period", "type": "nominal", "sort": ["previous_total", "current_month"]},
+              "tooltip": [
+                {"field": "metric", "type": "nominal", "title": "Metric"},
+                {"field": "period", "type": "nominal", "title": "Period"},
+                {"field": "value", "type": "quantitative", "title": "Count"}
+              ]
+            }
+          },
+          "description": "Current month vs all-time cumulative statistics"
+        }
+      ]
+    },
+    {
+      "id": "industry-analysis",
+      "title": "Intelligence Commentary",
+      "body": [
+        {
+          "type": "p",
+          "text": "In August, DWIQ was privately offered network access to 860 U.S., Canadian, and European-based corporate environments. This represents a 41% increase over August 2024, signaling a substantial escalation in Initial Access Broker (IAB) marketplace activity."
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "text": "41% increase in offered network access compared to August 2024"
+        },
+        {
+          "type": "p",
+          "text": "The surge in IAB activity correlates with several factors: increased adoption of hybrid work environments expanding attack surfaces, exploitation of newly disclosed vulnerabilities, and the continuing fragmentation of cybercriminal forums driving more private marketplace activity."
+        },
+        {
+          "type": "p",
+          "text": "Analysis of victim targeting patterns reveals threat actors continue to prioritize organizations with high-value data assets and critical infrastructure dependencies. The education sector leads victim distribution at 22.6%, followed by business services (12.6%) and manufacturing (11.7%)."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "text": "Education sector represents highest victim concentration, likely due to less mature cybersecurity infrastructure and high-value research data"
+        },
+        {
+          "type": "p",
+          "text": "Geographic distribution shows continued focus on North American and Western European targets, with threat actors specifically advertising 'Fortune 500' and 'enterprise-level' access credentials, indicating sophisticated target selection and reconnaissance capabilities."
+        }
+      ],
+      "charts": [
+        {
+          "id": "industry-breakdown-pie",
+          "type": "vegaLite",
+          "data": {
+            "src": "/content/reports/dwiq-monthly-august-2025/datasets/industry-breakdown.csv"
+          },
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "mark": {"type": "arc", "innerRadius": 50, "outerRadius": 120},
+            "encoding": {
+              "theta": {"field": "percentage", "type": "quantitative"},
+              "color": {
+                "field": "industry", 
+                "type": "nominal",
+                "scale": {"scheme": "category20"},
+                "legend": {"orient": "right", "titleFontSize": 12, "labelFontSize": 10}
+              },
+              "tooltip": [
+                {"field": "industry", "type": "nominal"},
+                {"field": "percentage", "type": "quantitative", "format": ".1f", "title": "Percentage"}
+              ]
+            },
+            "width": 300,
+            "height": 300
+          },
+          "description": "Distribution of Initial Access Broker victims by industry sector"
+        }
+      ]
+    },
+    {
+      "id": "access-types",
+      "title": "Initial Access Broker Victims by Access Type",
+      "body": [
+        {
+          "type": "p",
+          "text": "Analysis of access vector preferences among Initial Access Brokers reveals distinct patterns in target selection and exploitation methodology. RDWeb remains the most commonly compromised access method at 26.5%, followed by SonicWall VPN (18.2%) and Single Sign-On (SSO) implementations (16.4%)."
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "text": "Remote access technologies account for over 70% of all Initial Access Broker offerings, highlighting the continued risks of inadequately secured remote work infrastructure"
+        },
+        {
+          "type": "p",
+          "text": "The prevalence of VPN-based compromise vectors (SonicWall, Citrix, FortiNet, WatchGuard, and Sophos VPNs collectively represent 42.1%) underscores the critical importance of VPN security hardening and multi-factor authentication implementation across all remote access solutions."
+        },
+        {
+          "type": "p",
+          "text": "Single Sign-On (SSO) compromise at 16.4% represents a particularly concerning vector, as successful SSO credential compromise can provide broad access across an organization's entire technology stack. This access method is frequently leveraged for lateral movement and privilege escalation attacks."
+        }
+      ],
+      "charts": [
+        {
+          "id": "access-types-pie",
+          "type": "vegaLite",
+          "data": {
+            "src": "/content/reports/dwiq-monthly-august-2025/datasets/access-types.csv"
+          },
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "mark": {"type": "arc", "innerRadius": 50, "outerRadius": 120},
+            "encoding": {
+              "theta": {"field": "percentage", "type": "quantitative"},
+              "color": {
+                "field": "access_type",
+                "type": "nominal", 
+                "scale": {"scheme": "category20"},
+                "legend": {"orient": "right", "titleFontSize": 12, "labelFontSize": 10}
+              },
+              "tooltip": [
+                {"field": "access_type", "type": "nominal", "title": "Access Type"},
+                {"field": "percentage", "type": "quantitative", "format": ".1f", "title": "Percentage"}
+              ]
+            },
+            "width": 300,
+            "height": 300
+          },
+          "description": "Breakdown of access types used by Initial Access Brokers"
+        }
+      ]
+    },
+    {
+      "id": "supply-chain-analysis",
+      "title": "Critical Supply Chain Databases, Old but Critical CVEs, and a Different Attack Vector",
+      "body": [
+        {
+          "type": "p",
+          "text": "In August, Darkweb IQ operatives disrupted a sophisticated threat actor campaign leveraging Burp Suite Professional to conduct systematic reconnaissance against critical infrastructure targets. The campaign prominently featured exploitation of the legacy CVE-2020-6287 (SAP RECON) vulnerability, demonstrating how older vulnerabilities remain viable attack vectors in enterprise environments."
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "text": "CVE-2020-6287: Critical unauthenticated RCE vulnerability in SAP NetWeaver AS Java with CVSS score of 10.0 - Still actively exploited despite 4+ year disclosure timeline"
+        },
+        {
+          "type": "p",
+          "text": "The attack methodology revealed sophisticated target selection and reconnaissance capabilities. The threat actor gained reconnaissance-level access to an industrial supplier's network infrastructure and successfully created administrative accounts within a healthcare supply chain subdomain before DWIQ's intervention halted further activity."
+        },
+        {
+          "type": "p",
+          "text": "This incident highlights the interconnected nature of modern supply chain vulnerabilities, where compromise of a single supplier can provide threat actors with potential access to multiple downstream organizations. The healthcare supply chain targeting is particularly concerning given the critical nature of medical device and pharmaceutical distribution networks."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "text": "Threat actor demonstrated advanced operational security practices, including use of residential proxy networks and systematic vulnerability scanning across multiple industry verticals"
+        },
+        {
+          "type": "p",
+          "text": "The continued exploitation of CVE-2020-6287 underscores the persistent challenge of legacy system patching in enterprise environments. Organizations operating SAP NetWeaver AS Java instances should prioritize immediate patching and implement network segmentation to limit exposure of critical business systems."
+        },
+        {
+          "type": "p",
+          "text": "Post-incident analysis revealed the threat actor had conducted similar reconnaissance against at least 12 additional organizations across manufacturing, healthcare, and energy sectors, suggesting this was part of a broader campaign targeting supply chain infrastructure."
+        }
+      ]
+    },
+    {
+      "id": "ransomware-manual",
+      "title": "The Manual of a Major Ransomware Gang",
+      "body": [
+        {
+          "type": "p",
+          "text": "In early August, DWIQ obtained a comprehensive operational manual used by RansomHub ransomware affiliates, providing unprecedented insight into the standardized tactics, techniques, and procedures (TTPs) employed by one of the most prolific ransomware operations currently active. This 47-page document serves as a detailed playbook for affiliate operators, covering initial access, lateral movement, privilege escalation, and network encryption methodologies."
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "text": "Manual reveals highly systematized approach to ransomware deployment, indicating professional-level operational maturity within RansomHub affiliate network"
+        },
+        {
+          "type": "p",
+          "text": "The manual provides step-by-step instructions for RDP and Kerberos brute-forcing attacks, credential harvesting using tools like Rubeus and Netexec, and domain trust discovery via LDAP enumeration. Particularly concerning is the detailed guidance on identifying and targeting backup systems, with specific instructions for disabling shadow copies and cloud-based backup solutions."
+        },
+        {
+          "type": "p",
+          "text": "Network reconnaissance procedures outlined in the manual demonstrate sophisticated understanding of enterprise environments, including instructions for identifying high-value targets such as domain controllers, file servers, and database systems. The document also provides guidance on avoiding detection through strategic timing of activities and use of living-off-the-land techniques."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "text": "Manual includes specific instructions for targeting healthcare and critical infrastructure environments, with customized approaches for different industry verticals"
+        },
+        {
+          "type": "p",
+          "text": "The encryption deployment phase is methodically documented, including pre-encryption data exfiltration procedures, ransom note customization, and post-encryption communication protocols. The manual emphasizes maximizing business disruption while maintaining operational security, reflecting the group's focus on both financial gain and reputational damage."
+        },
+        {
+          "type": "p",
+          "text": "Analysis of this manual provides valuable defensive intelligence, enabling security teams to better understand and prepare for RansomHub-style attacks. The systematic approach documented suggests other major ransomware groups likely employ similar standardized procedures, highlighting the industrialized nature of modern ransomware operations."
+        }
+      ]
+    },
+    {
+      "id": "forum-disruption",
+      "title": "Forum Takedown Causes Confusion, but Does Not Stop Access Sales",
+      "body": [
+        {
+          "type": "p",
+          "text": "The late July arrest of a suspected XSS forum operator and subsequent forum disruption significantly fragmented the Russian-speaking cybercriminal forum landscape. This law enforcement action triggered the emergence of multiple successor forums, each claiming to be the 'legitimate' continuation of XSS, but none achieving the original forum's scale or user trust levels."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "text": "Forum fragmentation has not reduced overall IAB activity levels - instead driving more private marketplace transactions and encrypted communication channels"
+        },
+        {
+          "type": "p",
+          "text": "Despite the forum disruption, Initial Access Broker trade volumes remained consistent throughout August. DWIQ observed increased activity on alternative platforms including private Telegram channels, invite-only Discord servers, and emerging forums such as 'Exploit' and 'Ramp.' This migration pattern demonstrates the resilience and adaptability of cybercriminal marketplace ecosystems."
+        },
+        {
+          "type": "p",
+          "text": "The fragmentation has led to price volatility in IAB markets, with premium access credentials commanding higher prices due to reduced marketplace visibility and increased trust requirements between buyers and sellers. Some established brokers have leveraged this disruption to command premium rates for previously commoditized access types."
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "text": "Multiple new forums attempting to fill the XSS void have implemented less stringent vetting procedures, potentially increasing scam activity and reducing overall marketplace quality"
+        },
+        {
+          "type": "p",
+          "text": "DWIQ analysis suggests the forum landscape will likely consolidate over the coming months as trust networks rebuild and dominant platforms emerge. However, the disruption has accelerated adoption of more sophisticated operational security practices among cybercriminals, making future law enforcement actions more challenging."
+        }
+      ]
+    },
+    {
+      "id": "cve-analysis",
+      "title": "Other CVEs",
+      "body": [
+        {
+          "type": "p",
+          "text": "August saw continued exploitation of recently disclosed vulnerabilities alongside persistent targeting of older, unpatched systems. Two significant CVEs gained particular attention within Initial Access Broker communities, demonstrating the rapid weaponization timeline for new vulnerabilities."
+        },
+        {
+          "type": "p",
+          "text": "CVE-2025-8069 (AWS Client VPN for Windows): A high-credibility Initial Access Broker with established ties to multiple ransomware groups including Akira, RansomHub, Play, and INC Ransom claimed successful exploitation of this vulnerability against a Fortune 500 U.S.-based company. The actor provided proof-of-concept evidence including network topology screenshots and credential dumps, confirming active exploitation."
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "text": "CVE-2025-8069 exploitation confirmed by credible threat actor with established ransomware connections - immediate patching required"
+        },
+        {
+          "type": "p",
+          "text": "The AWS Client VPN vulnerability enables privilege escalation and credential theft, providing threat actors with potential access to cloud infrastructure and hybrid environments. Organizations utilizing AWS Client VPN for Windows should immediately upgrade to version 5.2.2 and conduct thorough security assessments of potentially compromised endpoints."
+        },
+        {
+          "type": "p",
+          "text": "CVE-2025-232756 (Fortinet Products): A medium-credibility actor offered a working exploit for a stack-based buffer overflow affecting multiple Fortinet product lines. While the actor's credibility rating is moderate, the technical details provided suggest genuine vulnerability knowledge. The offering included both standalone exploit code and integration guidance for post-exploitation frameworks."
+        },
+        {
+          "type": "p",
+          "text": "The Fortinet vulnerability has significant implications for perimeter security, as many organizations rely heavily on Fortinet appliances for network protection. Successful exploitation could provide threat actors with network boundary access, enabling lateral movement and internal reconnaissance activities."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "text": "Fortinet has released patches for affected product lines - verify all appliances are updated to vendor-recommended versions and consider temporary network segmentation for unpatched devices"
+        },
+        {
+          "type": "p",
+          "text": "Both vulnerabilities highlight the critical importance of rapid patch deployment cycles and vulnerability assessment programs. Organizations should prioritize patching for internet-facing systems and remote access infrastructure, as these represent the most commonly targeted attack vectors in current threat landscapes."
+        }
+      ]
+    }
+  ]
+}
