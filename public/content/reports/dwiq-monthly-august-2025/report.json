@@ -113,20 +113,31 @@
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": "container", 
             "height": 300,
-            "transform": [{"fold": ["previous_total", "current_month"], "as": ["period", "value"]}],
+            "transform": [
+              {"fold": ["previous_total", "current_month"], "as": ["period", "value"]},
+              {"calculate": "datum.period === 'current_month' ? 1 : 0", "as": "period_order"},
+              {"calculate": "datum.period === 'current_month' ? 'August 2025' : 'Previous Total'", "as": "period_label"}
+            ],
             "mark": "bar",
             "encoding": {
-              "x": {"field": "metric", "type": "nominal", "title": null},
+              "x": {"field": "metric", "type": "nominal", "title": null, "axis": {"labelAngle": 0}},
               "y": {"field": "value", "type": "quantitative", "stack": true, "title": null},
+              "order": {"field": "period_order", "type": "quantitative"},
               "color": {
                 "field": "period", 
                 "type": "nominal",
-                "scale": {"range": ["#50534D", "#EE4727"]},
-                "legend": {"orient": "top", "labelFontSize": 14, "symbolSize": 200}
+                "scale": {"domain": ["previous_total", "current_month"], "range": ["#50534D", "#EE4727"]},
+                "legend": {
+                  "orient": "top",
+                  "title": null,
+                  "labelFontSize": 14,
+                  "symbolSize": 200,
+                  "labelExpr": "datum.label == 'current_month' ? 'August 2025' : 'Previous Total'"
+                }
               },
               "tooltip": [
                 {"field": "metric", "type": "nominal", "title": "Metric"},
-                {"field": "period", "type": "nominal", "title": "Period"},
+                {"field": "period_label", "type": "nominal", "title": ""},
                 {"field": "value", "type": "quantitative", "title": "Count"}
               ]
             }
@@ -175,22 +186,40 @@
           },
           "spec": {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "mark": {"type": "arc", "innerRadius": 50, "outerRadius": 120},
+            "mark": {"type": "arc", "innerRadius": 50, "outerRadius": 200},
+            "autosize": {"type": "fit", "contains": "padding"},
             "encoding": {
               "theta": {"field": "percentage", "type": "quantitative"},
               "color": {
                 "field": "industry", 
                 "type": "nominal",
                 "scale": {"scheme": "category20"},
-                "legend": {"orient": "right", "titleFontSize": 12, "labelFontSize": 10}
+                "legend": {
+                  "orient": "right",
+                  "title": "Top Targeted Industries",
+                  "titleFontSize": 22,
+                  "titleLimit": 1000,
+                  "labelFontSize": 18,
+                  "labelLimit": 500,
+                  "symbolSize": 220,
+                  "values": [
+                    "Education",
+                    "Business Services",
+                    "Manufacturing",
+                    "Retail",
+                    "Construction"
+                  ],
+                  "labelExpr": "datum.label == 'Education' ? 'Education (22.6%)' : datum.label == 'Business Services' ? 'Business Services (12.6%)' : datum.label == 'Manufacturing' ? 'Manufacturing (11.7%)' : datum.label == 'Retail' ? 'Retail (8.2%)' : datum.label == 'Construction' ? 'Construction (5.3%)' : datum.label"
+                }
               },
               "tooltip": [
-                {"field": "industry", "type": "nominal"},
+                {"field": "industry", "type": "nominal", "title": "Industry"},
                 {"field": "percentage", "type": "quantitative", "format": ".1f", "title": "Percentage"}
               ]
             },
-            "width": 300,
-            "height": 300
+            "width": "container",
+            "height": 460,
+            "padding": {"left": 0, "right": 0, "top": 0, "bottom": 0}
           },
           "description": "Distribution of Initial Access Broker victims by industry sector"
         }
@@ -227,22 +256,40 @@
           },
           "spec": {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "mark": {"type": "arc", "innerRadius": 50, "outerRadius": 120},
+            "mark": {"type": "arc", "innerRadius": 50, "outerRadius": 200},
+            "autosize": {"type": "fit", "contains": "padding"},
             "encoding": {
               "theta": {"field": "percentage", "type": "quantitative"},
               "color": {
                 "field": "access_type",
                 "type": "nominal", 
                 "scale": {"scheme": "category20"},
-                "legend": {"orient": "right", "titleFontSize": 12, "labelFontSize": 10}
+                "legend": {
+                  "orient": "right",
+                  "title": "Top Access Types",
+                  "titleFontSize": 22,
+                  "titleLimit": 1000,
+                  "labelFontSize": 18,
+                  "labelLimit": 500,
+                  "symbolSize": 220,
+                  "values": [
+                    "RDWeb",
+                    "SonicWall VPN",
+                    "SSO",
+                    "Citrix VPN",
+                    "FortiNet VPN"
+                  ],
+                  "labelExpr": "datum.label == 'RDWeb' ? 'RDWeb (26.5%)' : datum.label == 'SonicWall VPN' ? 'SonicWall VPN (18.2%)' : datum.label == 'SSO' ? 'SSO (16.4%)' : datum.label == 'Citrix VPN' ? 'Citrix VPN (14.5%)' : datum.label == 'FortiNet VPN' ? 'FortiNet VPN (6.5%)' : datum.label"
+                }
               },
               "tooltip": [
                 {"field": "access_type", "type": "nominal", "title": "Access Type"},
                 {"field": "percentage", "type": "quantitative", "format": ".1f", "title": "Percentage"}
               ]
             },
-            "width": 300,
-            "height": 300
+            "width": "container",
+            "height": 460,
+            "padding": {"left": 0, "right": 0, "top": 0, "bottom": 0}
           },
           "description": "Breakdown of access types used by Initial Access Brokers"
         }
