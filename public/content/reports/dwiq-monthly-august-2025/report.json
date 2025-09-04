@@ -63,21 +63,39 @@
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": "container",
             "height": 300,
-            "transform": [{"fold": ["interceptions", "notifications"], "as": ["metric", "value"]}],
-            "mark": {"type": "line", "point": true, "strokeWidth": 3},
+            "data": {
+              "url": "/content/reports/dwiq-monthly-august-2025/datasets/monthly-trends.csv",
+              "format": { "type": "csv", "parse": { "month": "utc:'%Y-%m'" } }
+            },
+            "transform": [
+              { "fold": ["interceptions", "notifications"], "as": ["metric", "value"] }
+            ],
+            "mark": { "type": "line", "point": true, "strokeWidth": 3 },
             "encoding": {
-              "x": {"field": "month", "type": "temporal", "title": "Month"},
-              "y": {"field": "value", "type": "quantitative", "title": "Count"},
+              "x": {
+                "field": "month",
+                "type": "temporal",
+                "timeUnit": "utcyearmonth",
+                "title": "Month",
+                "axis": { "format": "%b %Y", "labelAngle": 0 },
+                "scale": { "type": "utc" }
+              },
+              "y": { "field": "value", "type": "quantitative", "title": "Count" },
               "color": {
-                "field": "metric", 
+                "field": "metric",
                 "type": "nominal",
-                "scale": {"range": ["#EE4727", "#61625D"]},
-                "legend": {"orient": "top"}
+                "scale": { "range": ["#EE4727", "#61625D"] },
+                "legend": {
+                  "orient": "top",
+                  "title": null,
+                  "values": ["interceptions", "notifications"],
+                  "labelExpr": "datum.label == 'interceptions' ? 'Interceptions' : 'FBI Notifications'"
+                }
               },
               "tooltip": [
-                {"field": "month", "type": "temporal", "title": "Month"},
-                {"field": "metric", "type": "nominal", "title": "Type"}, 
-                {"field": "value", "type": "quantitative", "title": "Count"}
+                { "field": "month", "type": "temporal", "timeUnit": "utcyearmonth", "format": "%B %Y", "title": "Month" },
+                { "field": "metric", "type": "nominal", "title": "Type" },
+                { "field": "value", "type": "quantitative", "title": "Count" }
               ]
             }
           },
