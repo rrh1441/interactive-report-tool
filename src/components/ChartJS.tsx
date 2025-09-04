@@ -12,6 +12,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
+import type { ChartData, ChartOptions } from 'chart.js';
 import { useEffect, useState } from 'react';
 
 ChartJS.register(
@@ -34,7 +35,7 @@ type ChartProps = {
 };
 
 export default function ChartComponent({ id, dataUrl, type, title, description }: ChartProps) {
-  const [chartData, setChartData] = useState<any>(null);
+  const [chartData, setChartData] = useState<ChartData<'line' | 'bar', number[], string> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function ChartComponent({ id, dataUrl, type, title, description }
         const headers = lines[0].split(',');
         const data = lines.slice(1).map(line => {
           const values = line.split(',');
-          const row: any = {};
+          const row: Record<string, string> = {};
           headers.forEach((header, index) => {
             row[header] = values[index];
           });
@@ -106,7 +107,7 @@ export default function ChartComponent({ id, dataUrl, type, title, description }
     fetchData();
   }, [dataUrl, id]);
 
-  const options = {
+  const options: ChartOptions<'line' | 'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -114,7 +115,8 @@ export default function ChartComponent({ id, dataUrl, type, title, description }
         position: 'top' as const,
       },
       title: {
-        display: false,
+        display: Boolean(title),
+        text: title,
       },
     },
     scales: {

@@ -17,6 +17,9 @@ const eslintConfig = [
       ".next/**",
       "out/**",
       "build/**",
+      "dist/**",
+      // Generated code (e.g., Prisma runtime/client)
+      "src/generated/**",
       "next-env.d.ts",
     ],
   },

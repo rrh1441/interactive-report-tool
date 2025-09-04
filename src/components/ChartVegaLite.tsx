@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import * as vegaEmbed from "vega-embed";
+import embed, { type VisualizationSpec, type Result } from "vega-embed";
 import type { ChartVegaLite } from "@/types/report";
 
 type Props = { chart: ChartVegaLite };
@@ -13,6 +13,9 @@ export default function ChartVegaLiteComp({ chart }: Props) {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Snapshot the element for cleanup to avoid ref drift warnings
+    const containerEl = containerRef.current;
+
     // Clear any previous embed (important for React StrictMode double effects)
     if (viewRef.current) {
       try {
@@ -20,18 +23,21 @@ export default function ChartVegaLiteComp({ chart }: Props) {
       } catch {}
       viewRef.current = null;
     }
-    containerRef.current.innerHTML = "";
+    containerEl.innerHTML = "";
 
     // Merge data so we preserve any format/parse in the spec
-    const existingData = (chart.spec as any)?.data ?? {};
-    const spec = {
-      ...chart.spec,
+    const baseSpec = chart.spec as unknown as VisualizationSpec;
+    const existingData = (typeof baseSpec.data === "object" && baseSpec.data)
+      ? (baseSpec.data as Record<string, unknown>)
+      : {};
+    const spec: VisualizationSpec = {
+      ...baseSpec,
       data: { ...existingData, url: chart.data.src },
-    } as any;
+    };
 
     let cancelled = false;
-    vegaEmbed.default(containerRef.current, spec, { actions: false })
-      .then((res) => {
+    embed(containerEl, spec, { actions: false })
+      .then((res: Result) => {
         if (cancelled) return;
         viewRef.current = res.view;
       })
@@ -45,9 +51,7 @@ export default function ChartVegaLiteComp({ chart }: Props) {
         } catch {}
         viewRef.current = null;
       }
-      if (containerRef.current) {
-        containerRef.current.innerHTML = "";
-      }
+      containerEl.innerHTML = "";
     };
   }, [chart.spec, chart.data.src]);
 
